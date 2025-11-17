@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ghard13</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+        }
+
+        .main {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+        }
+
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .button:hover {
+            background: #f0f0f0;
+        }
+
+        .button.active {
+            background: #000;
+            color: white;
+        }
+
+        .output {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 1.5rem;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            min-height: 400px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .config {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .config label {
+            display: block;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .config input {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0.75rem;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #000;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .puzzle-preview {
+            border: 1px solid #e0e0e0;
+            padding: 1rem;
+            margin-top: 1rem;
+            background: white;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">ghard13</h1>
+            <p class="subtitle">app hardening experiment</p>
+        </header>
+
+        <div class="grid">
+            <aside class="sidebar">
+                <div class="section">
+                    <h3 class="section-title">Hardening</h3>
+                    <button class="button" id="show-original">Original Site</button>
+                    <button class="button" id="apply-hardening">Apply Hardening</button>
+                    <button class="button" id="show-mappings">Show Mappings</button>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Puzzles</h3>
+                    <button class="button" id="generate-puzzle">Generate</button>
+                    <button class="button" id="simulate-solve">Simulate Solve</button>
+                    <button class="button" id="simulate-fail">Simulate Fail</button>
+                </div>
+
+                <div class="section">
+                    <h3 class="section-title">Sessions</h3>
+                    <button class="button" id="create-session">Create</button>
+                    <button class="button" id="check-session">Check Status</button>
+                    <button class="button" id="cleanup-sessions">Cleanup</button>
+                </div>
+
+                <div class="config">
+                    <label>Max Attempts</label>
+                    <input type="number" id="max-attempts" value="5" min="1" max="10">
+                    <label>Timeout (seconds)</label>
+                    <input type="number" id="timeout-seconds" value="60" min="30" max="300">
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="selectors-count">0</div>
+                        <div class="stat-label">Selectors</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="puzzles-generated">0</div>
+                        <div class="stat-label">Puzzles</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="sessions-active">0</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="main">
+                <div class="output" id="output">ghard13 demo interface
+
+click buttons to explore:
+• hardening: see selector obfuscation
+• puzzles: behavioral verification system  
+• sessions: user state management
+
+experiment with anti-automation protection</div>
+                
+                <div class="puzzle-preview" id="puzzle-container"></div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Obfuscator implementation
+        class Obfuscator {
+            constructor() {
+                this.mappings = new Map();
+                this.usedValues = new Set();
+            }
+            
+            generateHex(length = 12) {
+                const chars = '0123456789abcdef';
+                let result = 'abcdef'[Math.floor(Math.random() * 6)];
+                for (let i = 1; i < length; i++) {
+                    result += chars[Math.floor(Math.random() * chars.length)];
+                }
+                return result;
+            }
+            
+            generateUniqueHex(length = 12) {
+                let hex;
+                do {
+                    hex = this.generateHex(length);
+                } while (this.usedValues.has(hex));
+                this.usedValues.add(hex);
+                return hex;
+            }
+            
+            obfuscate(selector) {
+                if (this.mappings.has(selector)) {
+                    return this.mappings.get(selector);
+                }
+                const obfuscated = this.generateUniqueHex();
+                this.mappings.set(selector, obfuscated);
+                return obfuscated;
+            }
+            
+            getAllMappings() {
+                return Object.fromEntries(this.mappings);
+            }
+            
+            getStats() {
+                return {
+                    totalMappings: this.mappings.size,
+                    collisionRate: 0
+                };
+            }
+        }
+
+        let currentSession = null;
+        let stats = { selectorsCount: 0, puzzlesGenerated: 0, sessionsActive: 0 };
+        let obfuscator = new Obfuscator();
+        let originalSelectors = [
+            'main-header', 'site-header', 'navigation', 'nav-list', 'nav-item',
+            'nav-link', 'hero-section', 'hero', 'hero-title', 'cta-button', 'learn-more'
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            displayOutput('ghard13 initialized\n\nready for demonstration');
+        });
+
+        function setupEventListeners() {
+            document.getElementById('show-original').addEventListener('click', showOriginal);
+            document.getElementById('apply-hardening').addEventListener('click', applyHardening);
+            document.getElementById('show-mappings').addEventListener('click', showMappings);
+            document.getElementById('generate-puzzle').addEventListener('click', generatePuzzle);
+            document.getElementById('simulate-solve').addEventListener('click', simulateSolve);
+            document.getElementById('simulate-fail').addEventListener('click', simulateFail);
+            document.getElementById('create-session').addEventListener('click', createSession);
+            document.getElementById('check-session').addEventListener('click', checkSession);
+            document.getElementById('cleanup-sessions').addEventListener('click', cleanupSessions);
+        }
+
+        function displayOutput(content) {
+            document.getElementById('output').textContent = content;
+        }
+
+        function updateStats() {
+            document.getElementById('selectors-count').textContent = stats.selectorsCount;
+            document.getElementById('puzzles-generated').textContent = stats.puzzlesGenerated;
+            document.getElementById('sessions-active').textContent = stats.sessionsActive;
+        }
+
+        function showOriginal() {
+            setActiveButton('show-original');
+            displayOutput(`original html:
+
+<header class="main-header" id="site-header">
+  <nav class="navigation">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="#home" class="nav-link">home</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero-section" id="hero">
+  <h1 class="hero-title">welcome</h1>
+  <button class="cta-button" id="learn-more">learn more</button>
+</section>
+
+selectors found: 11`);
+            stats.selectorsCount = 11;
+            updateStats();
+        }
+
+        function applyHardening() {
+            setActiveButton('apply-hardening');
+            displayOutput('processing...\n\nextracting selectors\ngenerating hex mappings\nremapping files');
+            
+            setTimeout(() => {
+                displayOutput(`hardened html:
+
+<header class="a1b2c3d4e5f6" id="f6e5d4c3b2a1">
+  <nav class="b2c3d4e5f6a1">
+    <ul class="c3d4e5f6a1b2">
+      <li class="d4e5f6a1b2c3">
+        <a href="#home" class="e5f6a1b2c3d4">home</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<section class="f6a1b2c3d4e5" id="a1b2c3d4e5f6">
+  <h1 class="b2c3d4e5f6a1">welcome</h1>
+  <button class="c3d4e5f6a1b2" id="d4e5f6a1b2c3">learn more</button>
+</section>
+
+✓ selectors obfuscated
+✓ css updated  
+✓ js remapped
+✓ functionality preserved`);
+            }, 1200);
+        }
+
+        function showMappings() {
+            setActiveButton('show-mappings');
+            
+            // Generate fresh mappings
+            originalSelectors.forEach(selector => obfuscator.obfuscate(selector));
+            const mappings = obfuscator.getAllMappings();
+            const stats = obfuscator.getStats();
+            
+            let output = 'selector mappings:\n\n';
+            Object.entries(mappings).forEach(([original, obfuscated]) => {
+                output += `${original} → ${obfuscated}\n`;
+            });
+            
+            output += `\ntotal: ${stats.totalMappings} mappings\n`;
+            output += `collision rate: ${(stats.collisionRate * 100).toFixed(1)}%\n`;
+            output += `processing time: ${(Math.random() * 0.05 + 0.01).toFixed(3)}ms`;
+            
+            displayOutput(output);
+        }
+
+        function generatePuzzle() {
+            setActiveButton('generate-puzzle');
+            displayOutput('generating puzzle...\n\ncreating parameters\nbuilding ui\nsetting up tracking');
+            
+            setTimeout(() => {
+                const puzzleId = 'puzzle_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                displayOutput(`puzzle generated:
+
+id: ${puzzleId}
+wait time: ${(Math.random() * 3 + 2).toFixed(1)}s
+slider target: ${Math.floor(Math.random() * 76 + 11)}%
+target word: ${['DONE', 'READY', 'START', 'GO'][Math.floor(Math.random() * 4)]}${Math.floor(Math.random() * 100).toString().padStart(2, '0')}
+timeout: 60s
+
+behavioral tracking:
+✓ mouse movement patterns
+✓ keystroke timing analysis  
+✓ interaction sequence validation
+✓ anti-paste protection`);
+
+                stats.puzzlesGenerated++;
+                updateStats();
+                
+                document.getElementById('puzzle-container').style.display = 'block';
+                document.getElementById('puzzle-container').innerHTML = '<strong>puzzle preview</strong><br>interactive verification would appear here';
+            }, 800);
+        }
+
+        function simulateSolve() {
+            setActiveButton('simulate-solve');
+            displayOutput(`validating solution...
+
+checking parameters
+analyzing behavioral data
+verifying timing
+
+✓ puzzle solved
+✓ session updated
+✓ access granted`);
+        }
+
+        function simulateFail() {
+            setActiveButton('simulate-fail');
+            displayOutput(`puzzle failed:
+
+reason: timeout
+attempt: 1
+fallback strategy: new_puzzle
+
+→ generating fresh puzzle
+→ retry allowed
+→ user can attempt again`);
+        }
+
+        function createSession() {
+            setActiveButton('create-session');
+            const sessionId = 'ghard13_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            currentSession = sessionId;
+            
+            displayOutput(`session created:
+
+id: ${sessionId}
+created: ${new Date().toISOString()}
+expires: ${new Date(Date.now() + 3600000).toISOString()}
+status: active
+puzzle solved: false`);
+
+            stats.sessionsActive++;
+            updateStats();
+        }
+
+        function checkSession() {
+            setActiveButton('check-session');
+            if (!currentSession) {
+                displayOutput('no active session\ncreate session first');
+                return;
+            }
+
+            displayOutput(`session status:
+
+id: ${currentSession}
+status: active
+remaining: ${Math.floor(Math.random() * 3500 + 100)}s
+puzzle required: ${Math.random() > 0.5 ? 'yes' : 'no'}
+attempts: ${Math.floor(Math.random() * 3)}
+last activity: ${new Date().toISOString()}`);
+        }
+
+        function cleanupSessions() {
+            setActiveButton('cleanup-sessions');
+            const expired = Math.floor(Math.random() * 3);
+            displayOutput(`session cleanup:
+
+scanning expired sessions...
+found ${expired} expired entries
+removing expired data...
+
+✓ cleanup complete
+✓ ${expired} sessions removed
+✓ memory freed`);
+
+            stats.sessionsActive = Math.max(0, stats.sessionsActive - expired);
+            updateStats();
+        }
+
+        function setActiveButton(buttonId) {
+            document.querySelectorAll('.button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(buttonId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

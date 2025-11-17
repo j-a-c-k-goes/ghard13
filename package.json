@@ -5,7 +5,8 @@
   "main": "src/ghard13.js",
   "scripts": {
     "test": "node tests/test_runner.js",
-    "build": "node build/build_pipeline.js"
+    "build": "node build/build_pipeline.js",
+    "harden": "node build/build_pipeline.js demo/sample_site"
   },
   "keywords": ["hardening", "obfuscation", "anti-automation", "web-security"],
   "author": "jcubed",

@@ -13,7 +13,7 @@
   "author": "jcubed",
   "license": "MIT",
   "dependencies": {
-    "paste-me-not": "^1.0.0"
+    "paste-me-not": "^0.1.0"
   },
   "devDependencies": {
     "webpack": "^5.0.0",

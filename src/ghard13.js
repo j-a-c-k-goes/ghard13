@@ -22,6 +22,11 @@ class ghard13 {
       build_time:      true,
       puzzle_enabled:  true,
       session_timeout: 3600000, // 1 hour
+      fallback_limits: {
+        timeout_limit: 2,
+        invalid_solution_limit: 3,
+        max_total_attempts: 5
+      },
       ...config
     };
     

@@ -54,9 +54,11 @@ function run_tests() {
   // run session component tests
   try {
     const { run_session_manager_tests } = require('./session/test_session_manager');
+    const { run_fallback_handler_tests } = require('./session/test_fallback_handler');
     
     const session_results = [
-      run_session_manager_tests()
+      run_session_manager_tests(),
+      run_fallback_handler_tests()
     ];
     
     const session_passed = session_results.filter(Boolean).length;

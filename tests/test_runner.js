@@ -17,10 +17,12 @@ function run_tests() {
   try {
     const { run_selector_oracle_tests } = require('./core/test_selector_oracle');
     const { run_obfuscator_tests }      = require('./core/test_obfuscator');
+    const { run_remapper_tests }        = require('./core/test_remapper');
     
     const core_results = [
       run_selector_oracle_tests(),
-      run_obfuscator_tests()
+      run_obfuscator_tests(),
+      run_remapper_tests()
     ];
     
     const core_passed = core_results.filter(Boolean).length;

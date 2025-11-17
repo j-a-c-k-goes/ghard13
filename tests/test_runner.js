@@ -34,6 +34,23 @@ function run_tests() {
     console.log('error running core tests:', error.message);
   }
   
+  // run puzzle component tests
+  try {
+    const { run_puzzle_engine_tests } = require('./puzzle/test_puzzle_engine');
+    
+    const puzzle_results = [
+      run_puzzle_engine_tests()
+    ];
+    
+    const puzzle_passed = puzzle_results.filter(Boolean).length;
+    total_passed += puzzle_passed;
+    total_tests  += puzzle_results.length;
+    
+    console.log(`puzzle tests: ${puzzle_passed}/${puzzle_results.length} passed`);
+  } catch (error) {
+    console.log('error running puzzle tests:', error.message);
+  }
+  
   console.log(`\ntotal test results: ${total_passed}/${total_tests} passed`);
   
   if (total_passed === total_tests) {

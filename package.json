@@ -1,0 +1,22 @@
+{
+  "name": "ghard13",
+  "version": "0.1.0",
+  "description": "library experiment to provide app hardening via obfuscation and behavioral puzzles",
+  "main": "src/ghard13.js",
+  "scripts": {
+    "test": "node tests/test_runner.js",
+    "build": "node build/build_pipeline.js",
+    "dev": "webpack --mode development --config build/webpack.config.js",
+    "prod": "webpack --mode production --config build/webpack.config.js"
+  },
+  "keywords": ["hardening", "obfuscation", "anti-automation", "web-security"],
+  "author": "jcubed",
+  "license": "MIT",
+  "dependencies": {
+    "paste-me-not": "^1.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.0.0",
+    "webpack-cli": "^4.0.0"
+  }
+}

@@ -51,6 +51,23 @@ function run_tests() {
     console.log('error running puzzle tests:', error.message);
   }
   
+  // run session component tests
+  try {
+    const { run_session_manager_tests } = require('./session/test_session_manager');
+    
+    const session_results = [
+      run_session_manager_tests()
+    ];
+    
+    const session_passed = session_results.filter(Boolean).length;
+    total_passed += session_passed;
+    total_tests  += session_results.length;
+    
+    console.log(`session tests: ${session_passed}/${session_results.length} passed`);
+  } catch (error) {
+    console.log('error running session tests:', error.message);
+  }
+  
   console.log(`\ntotal test results: ${total_passed}/${total_tests} passed`);
   
   if (total_passed === total_tests) {

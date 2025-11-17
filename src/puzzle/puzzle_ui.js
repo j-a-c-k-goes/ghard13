@@ -4,6 +4,8 @@
  * impact: provides user interface for human verification
  */
 
+const pasteMeNot = require('paste-me-not');
+
 class puzzle_ui {
   constructor() {}
   
@@ -104,6 +106,12 @@ class puzzle_ui {
             currentStep = 3;
             
             const input = document.getElementById('puzzle-input');
+            
+            // enable paste-me-not protection
+            if (typeof pasteMeNot !== 'undefined') {
+              pasteMeNot.protect('#puzzle-input');
+            }
+            
             input.addEventListener('input', function(e) {
               behavioralData.push({
                 type: 'keystroke',

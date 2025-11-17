@@ -52,9 +52,9 @@ class remapper {
       // escape special regex characters in selector
       const escaped_original = original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       
-      // match selector patterns (with word boundaries for classes/ids)
+      // match selector patterns with proper CSS boundaries
       if (original.startsWith('.') || original.startsWith('#')) {
-        const selector_regex = new RegExp(`\\${escaped_original}\\b`, 'g');
+        const selector_regex = new RegExp(`${escaped_original}(?=[\\s{:,>+~]|$)`, 'g');
         remapped_css         = remapped_css.replace(selector_regex, obfuscated);
       }
     });

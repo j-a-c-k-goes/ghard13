@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzles Demo - ghard13</title>
+    <link rel="stylesheet" href="styles\demo.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">ghard13</h1>
+            <p class="subtitle">behavioral puzzle demo</p>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="hardening.html" class="nav-link">Hardening</a>
+                <a href="puzzles.html" class="nav-link active">Puzzles</a>
+                <a href="sessions.html" class="nav-link">Sessions</a>
+                <a href="config.html" class="nav-link">Config</a>
+            </nav>
+        </header>
+
+        <div class="demo-grid">
+            <aside class="sidebar">
+                <div class="section">
+                    <h3 class="section-title">Actions</h3>
+                    <button class="demo-button" id="generate-puzzle">Generate</button>
+                    <button class="demo-button" id="simulate-solve">Simulate Solve</button>
+                    <button class="demo-button" id="simulate-fail">Simulate Fail</button>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="puzzles-generated">0</div>
+                        <div class="stat-label">Generated</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="puzzles-solved">0</div>
+                        <div class="stat-label">Solved</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="success-rate">0%</div>
+                        <div class="stat-label">Success</div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="demo-main">
+                <div class="output" id="output">behavioral puzzle demo
+
+interactive verification with timing analysis
+
+click buttons to explore:
+• generate: create new behavioral puzzle
+• simulate solve: demonstrate successful completion
+• simulate fail: show failure handling
+
+features:
+✓ countdown timer (2-5 seconds)
+✓ slider target (11-87%)
+✓ text input with paste protection
+✓ behavioral tracking</div>
+                
+                <div id="puzzle-container" style="margin-top: 1rem; display: none;"></div>
+            </main>
+        </div>
+    </div>
+
+    <script src="ghard13_browser.js"></script>
+    <script src="scripts\puzzles.js"></script>
+</body>
+</html>

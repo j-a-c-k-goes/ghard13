@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ghard13 - configuration demo</title>
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">ghard13 configuration</h1>
+            <p class="subtitle">library configuration and settings</p>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">basic demo</a>
+                <a href="hardening.html" class="nav-link">hardening</a>
+                <a href="puzzles.html" class="nav-link">puzzles</a>
+                <a href="sessions.html" class="nav-link">sessions</a>
+            </nav>
+        </header>
+
+        <main class="main">
+            <div class="demo-section">
+                <h2>obfuscator settings</h2>
+                <div class="config-controls">
+                    <div class="config-item">
+                        <label for="hex-length">hex length:</label>
+                        <input type="number" id="hex-length" value="8" min="4" max="16">
+                    </div>
+                    <div class="config-item">
+                        <label for="site-salt">site salt:</label>
+                        <input type="text" id="site-salt" value="ghard13_default">
+                    </div>
+                    <div class="config-item">
+                        <label for="pool-size">pool size:</label>
+                        <input type="number" id="pool-size" value="100" min="10" max="1000">
+                    </div>
+                    <div class="config-item">
+                        <label for="non-hex-chars">non-hex chars:</label>
+                        <input type="checkbox" id="non-hex-chars" checked>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2>puzzle settings</h2>
+                <div class="config-controls">
+                    <div class="config-item">
+                        <label for="puzzle-enabled">puzzle enabled:</label>
+                        <input type="checkbox" id="puzzle-enabled" checked>
+                    </div>
+                    <div class="config-item">
+                        <label for="puzzle-timeout">timeout (ms):</label>
+                        <input type="number" id="puzzle-timeout" value="60000" min="10000" step="1000">
+                    </div>
+                    <div class="config-item">
+                        <label for="wait-min">wait min (ms):</label>
+                        <input type="number" id="wait-min" value="2000" min="1000" step="100">
+                    </div>
+                    <div class="config-item">
+                        <label for="wait-max">wait max (ms):</label>
+                        <input type="number" id="wait-max" value="5000" min="2000" step="100">
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2>session settings</h2>
+                <div class="config-controls">
+                    <div class="config-item">
+                        <label for="session-timeout-config">session timeout (ms):</label>
+                        <input type="number" id="session-timeout-config" value="3600000" min="60000" step="60000">
+                    </div>
+                    <div class="config-item">
+                        <label for="timeout-limit-config">timeout limit:</label>
+                        <input type="number" id="timeout-limit-config" value="2" min="1" max="10">
+                    </div>
+                    <div class="config-item">
+                        <label for="invalid-limit-config">invalid limit:</label>
+                        <input type="number" id="invalid-limit-config" value="3" min="1" max="10">
+                    </div>
+                    <div class="config-item">
+                        <label for="max-attempts-config">max attempts:</label>
+                        <input type="number" id="max-attempts-config" value="5" min="1" max="20">
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2>build settings</h2>
+                <div class="config-controls">
+                    <div class="config-item">
+                        <label for="build-time">build time:</label>
+                        <input type="checkbox" id="build-time" checked>
+                    </div>
+                    <div class="config-item">
+                        <label for="debug-mode">debug mode:</label>
+                        <input type="checkbox" id="debug-mode">
+                    </div>
+                    <div class="config-item">
+                        <label for="log-level">log level:</label>
+                        <select id="log-level">
+                            <option value="error">error</option>
+                            <option value="warn">warn</option>
+                            <option value="info" selected>info</option>
+                            <option value="debug">debug</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2>configuration output</h2>
+                <div class="output" id="config-output">// ghard13 configuration
+const config = {
+  build_time: true,
+  puzzle_enabled: true,
+  session_timeout: 3600000,
+  fallback_limits: {
+    timeout_limit: 2,
+    invalid_solution_limit: 3,
+    max_total_attempts: 5
+  },
+  obfuscator: {
+    hex_length: 8,
+    site_salt: 'ghard13_default',
+    pool_size: 100,
+    use_non_hex_chars: true
+  }
+};</div>
+                <div class="action-buttons">
+                    <button id="generate-config">generate config</button>
+                    <button id="copy-config">copy to clipboard</button>
+                    <button id="reset-config">reset defaults</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="ghard13_browser.js"></script>
+    <script src="scripts/config_manager.js"></script>
+    <script src="scripts/config_ui.js"></script>
+    <script src="scripts/config_demo.js"></script>
+</body>
+</html>

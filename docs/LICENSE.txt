@@ -1,0 +1,44 @@
+ghard13 license (G13)
+
+Copyright (c) 2025, jcubed
+all rights reserved.
+
+permissions:
+you are granted the following rights to this software and associated documentation files (the "software"):
+
+1. use: use the software for any purpose, including commercial applications
+2. modify: modify, adapt, and create derivative works
+3. distribute: distribute copies and derivative works under the same license terms
+4. private use: use privately without disclosure obligations
+
+requirements:
+1. attribution: include copyright notice and this license in all copies
+2. source disclosure: if you distribute the software, you must make the source code available under this same license
+3. same license: derivative works must be licensed under these same terms
+
+prohibitions:
+1. commercial distribution: you may not sell, license, or otherwise commercially distribute the software as a standalone product
+2. repackaging for profit: you may not repackage the software for commercial gain without substantial added value
+3. sublicensing: you may not grant sublicenses that contradict these terms
+4. liability: the copyright holder is not liable for any damages
+
+clarifications:
+- [allowed]    "commercial use" means using the software within your commercial applications
+- [prohibited] "commercial distribution" means selling the software itself as a product
+- [subjective] "substantial added value" means significant functionality beyond the original software
+
+network use:
+if you run a modified version of this software on a server and users interact with it remotely through a computer network, you must make the source code of your modified version available to those users.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+third-party libraries:
+
+this software includes the following third-party libraries:
+
+1. paste-me-not
+   copyright (c) 2025, jcubed
+   licensed under paste-me-not license (pml)
+   used for: input field paste protection in behavioral puzzles
+
+for complete license terms of third-party libraries, see their respective license files in node_modules/ or their source repositories.

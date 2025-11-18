@@ -10,7 +10,7 @@
   },
   "keywords": ["hardening", "obfuscation", "anti-automation", "web-security"],
   "author": "jcubed",
-  "license": "MIT",
+  "license": "G13",
   "dependencies": {
     "paste-me-not": "^0.1.0"
   }

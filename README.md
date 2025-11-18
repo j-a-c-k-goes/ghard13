@@ -32,4 +32,4 @@ npm run build
 
 ## license
 
-MIT
+ghard13 license - see [LICENSE](LICENSE) or [LICENSE](docs/LICENSE.txt) file

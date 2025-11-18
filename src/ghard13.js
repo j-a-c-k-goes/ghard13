@@ -27,10 +27,16 @@ class ghard13 {
         invalid_solution_limit: 3,
         max_total_attempts: 5
       },
+      obfuscator: {
+        hex_length: 8,
+        site_salt: config.site_salt || 'ghard13_default',
+        pool_size: 100,
+        use_non_hex_chars: true
+      },
       ...config
     };
     
-    this.obfuscator      = new obfuscator();
+    this.obfuscator      = new obfuscator(this.config.obfuscator);
     this.selector_oracle = new selector_oracle();
     this.remapper        = new remapper(this.selector_oracle);
     this.puzzle_engine   = new puzzle_engine();

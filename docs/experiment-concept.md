@@ -186,22 +186,25 @@ notes:
   - all phases broken down into sub-phases (milestone like)
   - each sub-phase should test its module for logic, integration
 
-| phase | item                | purpose                                                           |
-|-------|---------------------|-------------------------------------------------------------------|
-| 0.0   | project setup       | foundation: package.json, build system, test framework            |
-| 0.1   | selector_oracle     | track site selectors, cross-reference html/js/css                 |
-| 0.2   | obfuscator          | core hex value generation and mapping logic                       |
-| 1.0   | remapper            | remap selectors across html/css/js without breaking functionality |
-| 1.1   | remapper tests      | validate css/js functionality after selector obfuscation          |
-| 1.2   | build integration   | buildtime processing pipeline for site files                      |
-| 2.0   | puzzle_engine       | generate behavioral + time-based puzzles                          |
-| 2.1   | puzzle ui           | countdown timer, slider, input field with paste-me-not            |
-| 2.2   | behavioral tracking | mouse movement, timing, keystroke rhythm analysis                 |
-| 3.0   | session_manager     | minimal session handling without site collision                   |
-| 3.1   | puzzle validation   | verify puzzle completion and behavioral patterns                  |
-| 3.2   | fallback handling   | serve obfuscated content on puzzle failure                        |
-| 4.0   | demo interface      | showcase ghard13 functionality and use cases                      |
-| 4.1   | paste-me-not check  | rechecking dependency use                                         |
-| 4.2   | hex algo refinement | optimizing gex algo                                               |
-| 4.3   | integration testing | end-to-end testing with sample site                               |
-| 5.0   | npm packaging       | prepare for `npm install ghard13` deployment                      |
+| phase | item                  | purpose                                                           |
+|-------|-----------------------|-------------------------------------------------------------------|
+| 0.0   | project setup         | foundation: package.json, build system, test framework            |
+| 0.1   | selector_oracle       | track site selectors, cross-reference html/js/css                 |
+| 0.2   | obfuscator            | core hex value generation and mapping logic                       |
+| 1.0   | remapper              | remap selectors across html/css/js without breaking functionality |
+| 1.1   | remapper tests        | validate css/js functionality after selector obfuscation          |
+| 1.2   | build integration     | buildtime processing pipeline for site files                      |
+| 2.0   | puzzle_engine         | generate behavioral + time-based puzzles                          |
+| 2.1   | puzzle ui             | countdown timer, slider, input field with paste-me-not            |
+| 2.2   | behavioral tracking   | mouse movement, timing, keystroke rhythm analysis                 |
+| 3.0   | session_manager       | minimal session handling without site collision                   |
+| 3.1   | puzzle validation     | verify puzzle completion and behavioral patterns                  |
+| 3.2   | fallback handling     | serve obfuscated content on puzzle failure                        |
+| 4.0   | demo interface        | showcase ghard13 functionality and use cases                      |
+| 4.1   | paste-me-not check    | rechecking dependency use                                         |
+| 4.2   | hex algo refinement   | configurable length (default 8), crypto randomness, site salt     |
+| 4.2.1 | deterministic seeding | use original selector as seed for consistent generation           |
+| 4.2.2 | hex pool optimization | pre-generate hex pool, lazy evaluation for performance            |
+| 4.2.3 | google-style mimicry  | add occasional non-hex characters (_,-) for realism               |
+| 4.3   | integration testing   | end-to-end testing with sample site                               |
+| 5.0   | npm packaging         | prepare for `npm install ghard13` deployment                      |

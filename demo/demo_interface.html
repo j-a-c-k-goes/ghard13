@@ -201,10 +201,10 @@
                 </div>
 
                 <div class="config">
-                    <label>Max Attempts</label>
-                    <input type="number" id="max-attempts" value="5" min="1" max="10">
-                    <label>Timeout (seconds)</label>
-                    <input type="number" id="timeout-seconds" value="60" min="30" max="300">
+                    <label>Hex Length</label>
+                    <input type="number" id="hex-length" value="8" min="6" max="16">
+                    <label>Site Salt</label>
+                    <input type="text" id="site-salt" value="demo_site_salt">
                 </div>
 
                 <div class="stats">
@@ -226,9 +226,11 @@
             <main class="main">
                 <div class="output" id="output">ghard13 demo interface
 
+using actual library implementation
+
 click buttons to explore:
-• hardening: see selector obfuscation
-• puzzles: behavioral verification system  
+• hardening: see selector obfuscation with crypto randomness
+• puzzles: behavioral verification system with paste-me-not
 • sessions: user state management
 
 experiment with anti-automation protection</div>
@@ -238,64 +240,35 @@ experiment with anti-automation protection</div>
         </div>
     </div>
 
+    <script src="ghard13_browser.js"></script>
     <script>
-        // Obfuscator implementation
-        class Obfuscator {
-            constructor() {
-                this.mappings = new Map();
-                this.usedValues = new Set();
-            }
-            
-            generateHex(length = 12) {
-                const chars = '0123456789abcdef';
-                let result = 'abcdef'[Math.floor(Math.random() * 6)];
-                for (let i = 1; i < length; i++) {
-                    result += chars[Math.floor(Math.random() * chars.length)];
-                }
-                return result;
-            }
-            
-            generateUniqueHex(length = 12) {
-                let hex;
-                do {
-                    hex = this.generateHex(length);
-                } while (this.usedValues.has(hex));
-                this.usedValues.add(hex);
-                return hex;
-            }
-            
-            obfuscate(selector) {
-                if (this.mappings.has(selector)) {
-                    return this.mappings.get(selector);
-                }
-                const obfuscated = this.generateUniqueHex();
-                this.mappings.set(selector, obfuscated);
-                return obfuscated;
-            }
-            
-            getAllMappings() {
-                return Object.fromEntries(this.mappings);
-            }
-            
-            getStats() {
-                return {
-                    totalMappings: this.mappings.size,
-                    collisionRate: 0
-                };
-            }
-        }
-
+        
         let currentSession = null;
         let stats = { selectorsCount: 0, puzzlesGenerated: 0, sessionsActive: 0 };
-        let obfuscator = new Obfuscator();
+        let ghard13Instance;
         let originalSelectors = [
             'main-header', 'site-header', 'navigation', 'nav-list', 'nav-item',
             'nav-link', 'hero-section', 'hero', 'hero-title', 'cta-button', 'learn-more'
         ];
 
+        function initializeGhard13() {
+            const hexLength = parseInt(document.getElementById('hex-length').value);
+            const siteSalt = document.getElementById('site-salt').value;
+            
+            ghard13Instance = new window.ghard13({
+                site_salt: siteSalt,
+                obfuscator: {
+                    hex_length: hexLength,
+                    use_non_hex_chars: true,
+                    pool_size: 50
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            initializeGhard13();
             setupEventListeners();
-            displayOutput('ghard13 initialized\n\nready for demonstration');
+            displayOutput('ghard13 initialized with actual library\n\nready for demonstration');
         });
 
         function setupEventListeners() {
@@ -308,6 +281,10 @@ experiment with anti-automation protection</div>
             document.getElementById('create-session').addEventListener('click', createSession);
             document.getElementById('check-session').addEventListener('click', checkSession);
             document.getElementById('cleanup-sessions').addEventListener('click', cleanupSessions);
+            
+            // Reinitialize when config changes
+            document.getElementById('hex-length').addEventListener('change', initializeGhard13);
+            document.getElementById('site-salt').addEventListener('change', initializeGhard13);
         }
 
         function displayOutput(content) {
@@ -349,26 +326,29 @@ selectors found: 11`);
             displayOutput('processing...\n\nextracting selectors\ngenerating hex mappings\nremapping files');
             
             setTimeout(() => {
+                // Use actual ghard13 obfuscator
+                const mappings = ghard13Instance.obfuscator.generate_mappings(originalSelectors);
+                
                 displayOutput(`hardened html:
 
-<header class="a1b2c3d4e5f6" id="f6e5d4c3b2a1">
-  <nav class="b2c3d4e5f6a1">
-    <ul class="c3d4e5f6a1b2">
-      <li class="d4e5f6a1b2c3">
-        <a href="#home" class="e5f6a1b2c3d4">home</a>
+<header class="${mappings['main-header']}" id="${mappings['site-header']}">
+  <nav class="${mappings['navigation']}">
+    <ul class="${mappings['nav-list']}">
+      <li class="${mappings['nav-item']}">
+        <a href="#home" class="${mappings['nav-link']}">home</a>
       </li>
     </ul>
   </nav>
 </header>
 
-<section class="f6a1b2c3d4e5" id="a1b2c3d4e5f6">
-  <h1 class="b2c3d4e5f6a1">welcome</h1>
-  <button class="c3d4e5f6a1b2" id="d4e5f6a1b2c3">learn more</button>
+<section class="${mappings['hero-section']}" id="${mappings['hero']}">
+  <h1 class="${mappings['hero-title']}">welcome</h1>
+  <button class="${mappings['cta-button']}" id="${mappings['learn-more']}">learn more</button>
 </section>
 
-✓ selectors obfuscated
-✓ css updated  
-✓ js remapped
+✓ selectors obfuscated with crypto randomness
+✓ css updated with deterministic seeding
+✓ js remapped with site salt
 ✓ functionality preserved`);
             }, 1200);
         }
@@ -376,18 +356,19 @@ selectors found: 11`);
         function showMappings() {
             setActiveButton('show-mappings');
             
-            // Generate fresh mappings
-            originalSelectors.forEach(selector => obfuscator.obfuscate(selector));
-            const mappings = obfuscator.getAllMappings();
-            const stats = obfuscator.getStats();
+            // Use actual ghard13 obfuscator
+            const mappings = ghard13Instance.obfuscator.generate_mappings(originalSelectors);
+            const obfuscatorStats = ghard13Instance.obfuscator.get_stats();
             
             let output = 'selector mappings:\n\n';
             Object.entries(mappings).forEach(([original, obfuscated]) => {
                 output += `${original} → ${obfuscated}\n`;
             });
             
-            output += `\ntotal: ${stats.totalMappings} mappings\n`;
-            output += `collision rate: ${(stats.collisionRate * 100).toFixed(1)}%\n`;
+            output += `\ntotal: ${obfuscatorStats.total_mappings} mappings\n`;
+            output += `collision rate: ${(obfuscatorStats.collision_rate * 100).toFixed(1)}%\n`;
+            output += `hex length: ${ghard13Instance.config.obfuscator.hex_length} chars\n`;
+            output += `site salt: ${ghard13Instance.config.obfuscator.site_salt}\n`;
             output += `processing time: ${(Math.random() * 0.05 + 0.01).toFixed(3)}ms`;
             
             displayOutput(output);
@@ -398,20 +379,23 @@ selectors found: 11`);
             displayOutput('generating puzzle...\n\ncreating parameters\nbuilding ui\nsetting up tracking');
             
             setTimeout(() => {
-                const puzzleId = 'puzzle_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                // Use actual ghard13 puzzle engine
+                const puzzle = ghard13Instance.generate_puzzle();
+                const params = puzzle.parameters;
+                
                 displayOutput(`puzzle generated:
 
-id: ${puzzleId}
-wait time: ${(Math.random() * 3 + 2).toFixed(1)}s
-slider target: ${Math.floor(Math.random() * 76 + 11)}%
-target word: ${['DONE', 'READY', 'START', 'GO'][Math.floor(Math.random() * 4)]}${Math.floor(Math.random() * 100).toString().padStart(2, '0')}
-timeout: 60s
+id: ${puzzle.id}
+wait time: ${params.wait_time.toFixed(1)}s
+slider target: ${params.slider_target}%
+target word: ${params.target_word}
+timeout: ${params.timeout_duration/1000}s
 
 behavioral tracking:
 ✓ mouse movement patterns
 ✓ keystroke timing analysis  
 ✓ interaction sequence validation
-✓ anti-paste protection`);
+✓ anti-paste protection (paste-me-not)`);
 
                 stats.puzzlesGenerated++;
                 updateStats();

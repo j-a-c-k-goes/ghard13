@@ -206,5 +206,6 @@ notes:
 | 4.2.1 | deterministic seeding | use original selector as seed for consistent generation           |
 | 4.2.2 | hex pool optimization | pre-generate hex pool, lazy evaluation for performance            |
 | 4.2.3 | google-style mimicry  | add occasional non-hex characters (_,-) for realism               |
-| 4.3   | integration testing   | end-to-end testing with sample site                               |
+| 4.3.0 | slider implementation | implement working visual puzzle in demo                           |
+| 4.3.1 | integration testing   | end-to-end testing with sample site                               |
 | 5.0   | npm packaging         | prepare for `npm install ghard13` deployment                      |

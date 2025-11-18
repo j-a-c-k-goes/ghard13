@@ -208,4 +208,8 @@ notes:
 | 4.2.3 | google-style mimicry  | add occasional non-hex characters (_,-) for realism               |
 | 4.3.0 | slider implementation | implement working visual puzzle in demo                           |
 | 4.3.1 | integration testing   | end-to-end testing with sample site                               |
-| 5.0   | npm packaging         | prepare for `npm install ghard13` deployment                      |
+| 5.0   | documentation         | usage.md, installation.md, architecture.md                        |
+| 5.1   | license               | transition from MIT license to [paste-me-not-LICENSE](https://github.com/j-a-c-k-goes/paste-me-not/blob/medulla/LICENSE) |
+| 5.2   | github release        | release v0.1.0 to repo                                            |
+| 5.3   | github pages          | setup demo in github pages                                        |
+| 5.4   | npm packaging         | prepare for `npm install ghard13` deployment                      |

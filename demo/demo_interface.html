@@ -400,9 +400,121 @@ behavioral tracking:
                 stats.puzzlesGenerated++;
                 updateStats();
                 
-                document.getElementById('puzzle-container').style.display = 'block';
-                document.getElementById('puzzle-container').innerHTML = '<strong>puzzle preview</strong><br>interactive verification would appear here';
+                // Show interactive puzzle
+                showInteractivePuzzle(puzzle);
             }, 800);
+        }
+        
+        function showInteractivePuzzle(puzzle) {
+            const container = document.getElementById('puzzle-container');
+            const params = puzzle.parameters;
+            
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div style="padding: 1rem; background: #f8f8f8; border-radius: 4px;">
+                    <h4 style="margin-bottom: 1rem; color: #333;">Interactive Puzzle Demo</h4>
+                    
+                    <div id="step-1" style="margin-bottom: 1rem; padding: 0.75rem; background: white; border-radius: 4px;">
+                        <strong>Step 1:</strong> Wait for countdown
+                        <div id="countdown" style="font-size: 1.5rem; font-weight: bold; color: #007cba; margin: 0.5rem 0;">
+                            ${Math.ceil(params.wait_time)}
+                        </div>
+                    </div>
+                    
+                    <div id="step-2" style="margin-bottom: 1rem; padding: 0.75rem; background: white; border-radius: 4px; opacity: 0.5;">
+                        <strong>Step 2:</strong> Drag slider to ${params.slider_target}%
+                        <div style="margin: 0.75rem 0;">
+                            <input type="range" id="puzzle-slider" min="0" max="100" value="0" disabled 
+                                   style="width: 100%; margin: 0.5rem 0;">
+                            <div id="slider-value" style="text-align: center; font-weight: bold;">0%</div>
+                        </div>
+                    </div>
+                    
+                    <div id="step-3" style="margin-bottom: 1rem; padding: 0.75rem; background: white; border-radius: 4px; opacity: 0.5;">
+                        <strong>Step 3:</strong> Type: <strong>${params.target_word}</strong>
+                        <input type="text" id="puzzle-input" placeholder="Type here..." disabled 
+                               style="width: 100%; padding: 0.5rem; margin: 0.5rem 0; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    
+                    <button id="puzzle-submit" disabled 
+                            style="width: 100%; padding: 0.75rem; background: #ccc; border: none; border-radius: 4px; cursor: not-allowed;">
+                        Complete Verification
+                    </button>
+                    
+                    <div id="puzzle-status" style="margin-top: 0.75rem; font-size: 0.9rem; color: #666;">Waiting for countdown...</div>
+                </div>
+            `;
+            
+            startPuzzleLogic(puzzle);
+        }
+        
+        function startPuzzleLogic(puzzle) {
+            const params = puzzle.parameters;
+            let currentStep = 1;
+            let countdown = Math.ceil(params.wait_time);
+            
+            // Countdown timer
+            const timer = setInterval(() => {
+                countdown -= 0.1;
+                document.getElementById('countdown').textContent = Math.max(0, countdown).toFixed(1);
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    enableStep2(params);
+                }
+            }, 100);
+            
+            function enableStep2(params) {
+                document.getElementById('step-2').style.opacity = '1';
+                document.getElementById('puzzle-slider').disabled = false;
+                document.getElementById('puzzle-status').textContent = `Drag slider to ${params.slider_target}%`;
+                currentStep = 2;
+                
+                const slider = document.getElementById('puzzle-slider');
+                const valueDisplay = document.getElementById('slider-value');
+                
+                slider.addEventListener('input', function(e) {
+                    const value = parseInt(e.target.value);
+                    valueDisplay.textContent = value + '%';
+                    
+                    if (Math.abs(value - params.slider_target) <= 2) {
+                        enableStep3(params);
+                    }
+                });
+            }
+            
+            function enableStep3(params) {
+                if (currentStep < 3) {
+                    document.getElementById('step-3').style.opacity = '1';
+                    document.getElementById('puzzle-input').disabled = false;
+                    document.getElementById('puzzle-status').textContent = `Type: ${params.target_word}`;
+                    currentStep = 3;
+                    
+                    const input = document.getElementById('puzzle-input');
+                    input.addEventListener('input', function(e) {
+                        if (e.target.value.toUpperCase() === params.target_word) {
+                            enableSubmit();
+                        }
+                    });
+                }
+            }
+            
+            function enableSubmit() {
+                const submitBtn = document.getElementById('puzzle-submit');
+                submitBtn.disabled = false;
+                submitBtn.style.background = '#007cba';
+                submitBtn.style.cursor = 'pointer';
+                submitBtn.style.color = 'white';
+                document.getElementById('puzzle-status').textContent = 'Ready to submit!';
+                
+                submitBtn.addEventListener('click', function() {
+                    document.getElementById('puzzle-status').textContent = '✓ Puzzle completed successfully!';
+                    document.getElementById('puzzle-status').style.color = '#28a745';
+                    submitBtn.textContent = 'Verification Complete';
+                    submitBtn.disabled = true;
+                    submitBtn.style.background = '#28a745';
+                });
+            }
         }
 
         function simulateSolve() {

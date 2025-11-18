@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ghard13 - session management demo</title>
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ghard13 session management</h1>
+            <p>demonstration of session lifecycle and fallback handling</p>
+        </header>
+
+        <nav class="demo-nav">
+            <a href="index.html">basic demo</a>
+            <a href="hardening.html">hardening</a>
+            <a href="puzzles.html">puzzles</a>
+            <a href="sessions.html" class="active">sessions</a>
+        </nav>
+
+        <main>
+            <section class="demo-section">
+                <h2>session status</h2>
+                <div class="status-display">
+                    <div class="status-item">
+                        <label>session id:</label>
+                        <span id="session-id">not initialized</span>
+                    </div>
+                    <div class="status-item">
+                        <label>session state:</label>
+                        <span id="session-state">new</span>
+                    </div>
+                    <div class="status-item">
+                        <label>puzzle attempts:</label>
+                        <span id="puzzle-attempts">0</span>
+                    </div>
+                    <div class="status-item">
+                        <label>fallback triggers:</label>
+                        <span id="fallback-triggers">none</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>session actions</h2>
+                <div class="action-buttons">
+                    <button id="create-session">create session</button>
+                    <button id="validate-session">validate session</button>
+                    <button id="update-session">update session</button>
+                    <button id="expire-session">expire session</button>
+                    <button id="clear-session">clear session</button>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>fallback simulation</h2>
+                <div class="fallback-controls">
+                    <button id="trigger-timeout">simulate timeout</button>
+                    <button id="trigger-invalid">simulate invalid solution</button>
+                    <button id="trigger-behavioral">simulate behavioral failure</button>
+                    <button id="reset-fallbacks">reset fallback counters</button>
+                </div>
+                <div class="fallback-status">
+                    <div class="fallback-item">
+                        <label>timeout count:</label>
+                        <span id="timeout-count">0</span>
+                    </div>
+                    <div class="fallback-item">
+                        <label>invalid count:</label>
+                        <span id="invalid-count">0</span>
+                    </div>
+                    <div class="fallback-item">
+                        <label>behavioral count:</label>
+                        <span id="behavioral-count">0</span>
+                    </div>
+                    <div class="fallback-item">
+                        <label>should fallback:</label>
+                        <span id="should-fallback">false</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>session configuration</h2>
+                <div class="config-controls">
+                    <div class="config-item">
+                        <label for="session-timeout">session timeout (ms):</label>
+                        <input type="number" id="session-timeout" value="3600000" min="1000" step="1000">
+                    </div>
+                    <div class="config-item">
+                        <label for="timeout-limit">timeout limit:</label>
+                        <input type="number" id="timeout-limit" value="2" min="1" max="10">
+                    </div>
+                    <div class="config-item">
+                        <label for="invalid-limit">invalid solution limit:</label>
+                        <input type="number" id="invalid-limit" value="3" min="1" max="10">
+                    </div>
+                    <div class="config-item">
+                        <label for="max-attempts">max total attempts:</label>
+                        <input type="number" id="max-attempts" value="5" min="1" max="20">
+                    </div>
+                    <button id="update-config">update configuration</button>
+                </div>
+            </section>
+
+            <section class="demo-section">
+                <h2>session log</h2>
+                <div class="log-container">
+                    <div id="session-log" class="log-output"></div>
+                    <button id="clear-log">clear log</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="ghard13_browser.js"></script>
+    <script src="scripts/logger.js"></script>
+    <script src="scripts/session_manager.js"></script>
+    <script src="scripts/fallback_handler.js"></script>
+    <script src="scripts/ui_controller.js"></script>
+    <script src="scripts/session_demo.js"></script>
+</body>
+</html>

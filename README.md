@@ -4,9 +4,6 @@
 
 anti-automation library that obfuscates HTML attributes and implements behavioral puzzles to prevent web scraping.
 
-## status
-
-**phase 0**: project setup (in progress)
 
 ## quick start
 
@@ -18,9 +15,20 @@ npm run build
 
 ## documentation
 
-- [experiment concept](docs/experiment-concept.md) - complete design document
-- [api reference](docs/api_reference.md) - library api documentation
-- [integration guide](docs/integration_guide.md) - implementation guide
+### getting started
+- [installation guide](docs/installation.md) - step-by-step setup instructions
+- [usage guide](docs/usage.md) - comprehensive usage documentation
+- [integration guide](docs/integration_guide.md) - framework integration patterns
+
+### reference
+- [api reference](docs/api_reference.md) - complete api documentation
+- [architecture guide](docs/architecture.md) - system design and components
+- [experiment concept](docs/experiment-concept.md) - original design document
+
+### examples
+- [demo interface](demo/) - working examples and showcase
+- [buildtime integration](docs/integration_guide.md#buildtime-integration) - production setup
+- [runtime integration](docs/integration_guide.md#runtime-integration) - dynamic hardening
 
 ## license
 

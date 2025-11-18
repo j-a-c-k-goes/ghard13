@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardening Demo - ghard13</title>
+    <link rel="stylesheet" href="styles\demo.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">ghard13</h1>
+            <p class="subtitle">selector hardening demo</p>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="hardening.html" class="nav-link active">Hardening</a>
+                <a href="puzzles.html" class="nav-link">Puzzles</a>
+                <a href="sessions.html" class="nav-link">Sessions</a>
+                <a href="config.html" class="nav-link">Config</a>
+            </nav>
+        </header>
+
+        <div class="demo-grid">
+            <aside class="sidebar">
+                <div class="section">
+                    <h3 class="section-title">Actions</h3>
+                    <button class="demo-button" id="show-original">Original Site</button>
+                    <button class="demo-button" id="apply-hardening">Apply Hardening</button>
+                    <button class="demo-button" id="show-mappings">Show Mappings</button>
+                </div>
+
+                <div class="config">
+                    <label>Hex Length</label>
+                    <input type="number" id="hex-length" value="8" min="6" max="16">
+                    <label>Site Salt</label>
+                    <input type="text" id="site-salt" value="demo_site_salt">
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-value" id="selectors-count">0</div>
+                        <div class="stat-label">Selectors</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="mappings-count">0</div>
+                        <div class="stat-label">Mappings</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="collision-rate">0%</div>
+                        <div class="stat-label">Collisions</div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="demo-main">
+                <div class="output" id="output">selector hardening demo
+
+crypto-secure hex generation with deterministic seeding
+
+click buttons to explore:
+• original site: see unobfuscated selectors
+• apply hardening: transform selectors with crypto randomness
+• show mappings: view selector → hex mappings
+
+features:
+✓ configurable hex length (6-16 chars)
+✓ site-specific salt for consistency
+✓ non-hex characters for realism
+✓ collision-free generation</div>
+            </main>
+        </div>
+    </div>
+
+    <script src="ghard13_browser.js"></script>
+    <script src="scripts\hardening.js"></script>
+</body>
+</html>

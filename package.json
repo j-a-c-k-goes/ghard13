@@ -1,6 +1,6 @@
 {
   "name": "ghard13",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "anti-automation library for app hardening via selector obfuscation and behavioral puzzles",
   "main": "src/ghard13.js",
   "files": [
@@ -27,7 +27,7 @@
   ],
   "author": "jcubed",
   "license": "G13",
-  "homepage": "https://github.com/j-a-c-k-goes/ghard13",
+  "homepage": "https://j-a-c-k-goes.github.io/ghard13/",
   "repository": {
     "type": "git",
     "url": "https://github.com/j-a-c-k-goes/ghard13.git"

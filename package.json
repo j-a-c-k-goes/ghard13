@@ -1,17 +1,46 @@
 {
   "name": "ghard13",
   "version": "0.1.0",
-  "description": "library experiment to provide app hardening via obfuscation and behavioral puzzles",
+  "description": "anti-automation library for app hardening via selector obfuscation and behavioral puzzles",
   "main": "src/ghard13.js",
+  "files": [
+    "src/",
+    "docs/",
+    "demo/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "node tests/test_runner.js",
     "build": "node build/build_pipeline.js",
-    "harden": "node build/build_pipeline.js demo/sample_site"
+    "demo": "echo 'Open demo/index.html in browser to view demos'",
+    "prepublishOnly": "npm test"
   },
-  "keywords": ["hardening", "obfuscation", "anti-automation", "web-security"],
+  "keywords": [
+    "hardening",
+    "obfuscation",
+    "anti-automation",
+    "web-security",
+    "selector-obfuscation",
+    "behavioral-puzzles",
+    "scraping-protection"
+  ],
   "author": "jcubed",
   "license": "G13",
+  "homepage": "https://github.com/j-a-c-k-goes/ghard13",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/j-a-c-k-goes/ghard13.git"
+  },
+  "bugs": {
+    "url": "https://github.com/j-a-c-k-goes/ghard13/issues"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "paste-me-not": "^0.1.0"
-  }
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
 }

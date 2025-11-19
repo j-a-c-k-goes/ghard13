@@ -1,0 +1,15 @@
+# development files
+node_modules/
+tests/
+build/
+.git/
+.github/
+
+# build artifacts
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# development scripts
+build-release.ps1

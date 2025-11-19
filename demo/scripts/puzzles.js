@@ -69,7 +69,7 @@ class PuzzlesDemo {
                         
                         <div class="input-container">
                             <label>enter word:</label>
-                            <input type="text" id="puzzle-input" placeholder="type here..." disabled>
+                            <input type="text" id="puzzle-input" placeholder="type here..." disabled data-paste-me-not>
                         </div>
                         
                         <button id="submit-puzzle" disabled>submit solution</button>
@@ -120,6 +120,24 @@ class PuzzlesDemo {
         submit.addEventListener('click', () => {
             this.validate_puzzle_solution();
         });
+        
+        // block paste operations
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            return false;
+        });
+        
+        input.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+        
+        // try paste-me-not library with correct API
+        if (typeof window.PasteMeNot !== 'undefined') {
+            new window.PasteMeNot(input);
+        } else if (typeof window.pasteMeNot !== 'undefined' && typeof window.pasteMeNot === 'function') {
+            window.pasteMeNot(input);
+        }
     }
     
     validate_puzzle_solution() {

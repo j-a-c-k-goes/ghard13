@@ -4,7 +4,7 @@
  * impact: provides user interface for human verification
  */
 
-const pasteMeNot = require('paste-me-not');
+// paste-me-not will be available globally in browser
 
 class puzzle_ui {
   constructor() {}
@@ -108,8 +108,21 @@ class puzzle_ui {
             const input = document.getElementById('puzzle-input');
             
             // enable paste-me-not protection
-            if (typeof pasteMeNot !== 'undefined') {
-              pasteMeNot.protect('#puzzle-input');
+            input.addEventListener('paste', function(e) {
+              e.preventDefault();
+              return false;
+            });
+            
+            input.addEventListener('contextmenu', function(e) {
+              e.preventDefault();
+              return false;
+            });
+            
+            // try paste-me-not library if available
+            if (typeof window.PasteMeNot !== 'undefined') {
+              new window.PasteMeNot(input);
+            } else if (typeof window.pasteMeNot !== 'undefined' && typeof window.pasteMeNot === 'function') {
+              window.pasteMeNot(input);
             }
             
             input.addEventListener('input', function(e) {
